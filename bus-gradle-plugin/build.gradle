@@ -1,0 +1,41 @@
+plugins {
+    id 'groovy'
+//    id 'maven'
+    id 'java-gradle-plugin'
+    id "com.github.dcendents.android-maven" version "2.1"
+    id "com.jfrog.bintray" version "1.8.0"
+}
+
+gradlePlugin {
+    plugins {
+        bus {
+            id = 'com.blankj.bus'
+            implementationClass = 'com.blankj.bus.BusPlugin'
+        }
+    }
+}
+
+dependencies {
+    compile 'com.android.tools.build:gradle:3.2.0'
+    compile 'javassist:javassist:3.12.1.GA'
+    compile 'commons-io:commons-io:2.5'
+    compile 'junit:junit:4.12'
+}
+
+group = 'com.blankj'
+version = '0.0.1'
+
+//uploadArchives {
+//    repositories {
+//        mavenDeployer {
+//            //提交到远程服务器：
+//            // repository(url: "http://www.xxx.com/repos") {
+//            //    authentication(userName: "admin", password: "admin")
+//            // }
+//            //本地的Maven地址设置为E:/Maven
+//            repository(url: uri('/Users/Blankj/Package/maven'))
+//        }
+//    }
+//}
+
+apply from: "../gradle/bintrayUpload.gradle"

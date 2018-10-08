@@ -1,0 +1,5 @@
+{
+  "lib": "java.lang.String com.blankj.utilcode.BusTest.libBus(java.lang.String)",
+  "module0": "java.lang.String com.blankj.module0.Module0Bus.module0Bus(java.lang.String)",
+  "module1": "java.lang.String com.blankj.module1.Module1Bus.module1Bus(java.lang.String)"
+}
