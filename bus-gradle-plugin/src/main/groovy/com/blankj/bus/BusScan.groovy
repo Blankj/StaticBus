@@ -16,7 +16,7 @@ class BusScan {
     static HashMap<String, String> start() {
         BUS_MAP.clear()
         SCANS.each { File file ->
-            Config.POOL.appendClassPath(file.absolutePath)
+//            Config.POOL.appendClassPath(file.absolutePath)
             if (file.name.endsWith(".jar")) {// process jar
                 scanJar(file)
             } else {

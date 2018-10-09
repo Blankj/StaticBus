@@ -6,6 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <Button
+        android:id="@+id/module0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="jump2Module0"
+        android:text="Jump to module0"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/module1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="jump2Module1"
+        android:text="Jump to module1"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toBottomOf="@id/module0" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

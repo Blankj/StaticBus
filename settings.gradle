@@ -1,5 +1,6 @@
 include ':app',
         ':bus',
         ':bus-gradle-plugin',
+        ':common',
         ':module0',
         ':module1'

@@ -4,8 +4,8 @@ plugins {
     id "com.jfrog.bintray" version "1.8.0"
 }
 
-group = 'com.blankj'
-version = '0.0.1'
+group = rootProject.group
+version = rootProject.versionName
 
 
 apply from: "../gradle/bintrayUpload.gradle"

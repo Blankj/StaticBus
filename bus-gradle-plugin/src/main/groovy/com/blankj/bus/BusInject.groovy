@@ -11,22 +11,22 @@ import org.apache.commons.io.FileUtils
 class BusInject {
 
     static void start(HashMap<String, String> bus) {
-//        Config.POOL.appendClassPath(Utils.getProject().android.bootClasspath[0].toString())
+        Config.POOL.appendClassPath(Utils.getProject().android.bootClasspath[0].toString())
 
-//        File jar = BusScan.UTIL_CODE_JAR
-//        String jarPath = jar.getAbsolutePath()
-//        String decompressedJarPath = jarPath.substring(0, jarPath.length() - 4);
-//        File decompressedJar = new File(decompressedJarPath)
-//        ZipUtils.unzipFile(jar, decompressedJar)
-//        Config.POOL.appendClassPath(decompressedJarPath)
-//
-//        CtClass busUtils = Config.POOL.get(Config.CLASS_BUS_UTILS)
-//        CtMethod callMethod = busUtils.getDeclaredMethod("post");
-//        callMethod.insertAfter(getInsertContent(bus));
-//        busUtils.writeFile(decompressedJarPath)
-//        FileUtils.forceDelete(jar)
-//        ZipUtils.zipFile(decompressedJar, jar)
-//        FileUtils.forceDelete(decompressedJar)
+        File jar = BusScan.UTIL_CODE_JAR
+        String jarPath = jar.getAbsolutePath()
+        String decompressedJarPath = jarPath.substring(0, jarPath.length() - 4);
+        File decompressedJar = new File(decompressedJarPath)
+        ZipUtils.unzipFile(jar, decompressedJar)
+        Config.POOL.appendClassPath(decompressedJarPath)
+
+        CtClass busUtils = Config.POOL.get(Config.CLASS_BUS_UTILS)
+        CtMethod callMethod = busUtils.getDeclaredMethod("post");
+        callMethod.insertAfter(getInsertContent(bus));
+        busUtils.writeFile(decompressedJarPath)
+        FileUtils.forceDelete(jar)
+        ZipUtils.zipFile(decompressedJar, jar)
+        FileUtils.forceDelete(decompressedJar)
     }
 
     private static String getInsertContent(HashMap<String, String> bus) {

@@ -1,8 +1,10 @@
 plugins {
     id 'groovy'
     id 'java-gradle-plugin'
-    id 'maven'
+//    id 'maven'
     id "com.gradle.plugin-publish" version "0.10.0"
+    id "com.github.dcendents.android-maven" version "2.1"
+    id "com.jfrog.bintray" version "1.8.0"
 }
 
 gradlePlugin {
@@ -22,10 +24,12 @@ dependencies {
     compileOnly project(':bus')
 }
 
-group = 'com.blankj'
-version = '0.0.6'
+group = rootProject.group
+version = rootProject.versionName
 
 apply from: "../gradle/localMavenUpload.gradle"
 apply from: "../gradle/pluginUpload.gradle"
+apply from: "../gradle/bintrayUpload.gradle"
 
+//./gradlew :bus-gradle-plugin bintrayUpload
 //./gradlew publishPlugins

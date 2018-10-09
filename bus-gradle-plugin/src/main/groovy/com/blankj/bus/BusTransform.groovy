@@ -5,8 +5,6 @@ import com.android.build.gradle.internal.pipeline.TransformManager
 import com.blankj.util.JsonUtils
 import com.blankj.util.LogUtils
 import com.blankj.util.Utils
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import org.apache.commons.io.FileUtils
 
 class BusTransform extends Transform {
@@ -77,9 +75,10 @@ class BusTransform extends Transform {
                         && !jarName.startsWith('android.arch.')) {
                     if (jarName.startsWith("com.blankj:bus:")) {
                         BusScan.UTIL_CODE_JAR = dest
+                    } else {
+                        LogUtils.l(jarName)
+                        BusScan.SCANS.add(dest)
                     }
-                    LogUtils.l(jarName)
-                    BusScan.SCANS.add(dest)
                 }
             }
         }
