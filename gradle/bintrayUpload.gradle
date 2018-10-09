@@ -21,6 +21,8 @@ def developerEmail = properties.getProperty("developer.email")
 def bintrayUser = properties.getProperty("bintray.user")
 def bintrayApikey = properties.getProperty("bintray.apikey")
 
+def javadocName = properties.getProperty("javadoc.name")
+
 // This generates POM.xml with proper parameters
 install.repositories.mavenInstaller.pom.project {
     name projectName
@@ -43,6 +45,21 @@ install.repositories.mavenInstaller.pom.project {
         developerConnection projectGitUrl
         url projectSiteUrl
     }
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
 }
 
 // bintray configuration

@@ -75,7 +75,7 @@ class BusTransform extends Transform {
 
                 if (!jarName.startsWith('com.android.support:')
                         && !jarName.startsWith('android.arch.')) {
-                    if (jarName.startsWith("com.blankj:utilcode:")) {
+                    if (jarName.startsWith("com.blankj:bus:")) {
                         BusScan.UTIL_CODE_JAR = dest
                     }
                     LogUtils.l(jarName)
@@ -90,7 +90,8 @@ class BusTransform extends Transform {
             FileUtils.write(jsonFile, JsonUtils.getFormatJson(bus))
             BusInject.start(bus)
         } else {
-            LogUtils.l('u should <implementation "com.blankj:utilcode:1.30.+>"')
+            LogUtils.l('u should <implementation "com.blankj:utilcode:1.30.+>" ' +
+                    'or <implementation "com.blankj:bus:1.0+>')
         }
 
         LogUtils.l(getName() + " finished: " + (System.currentTimeMillis() - stTime) + "ms")

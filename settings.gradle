@@ -1,2 +1,5 @@
-include ':app', ':module0', ':module1',
-        ':bus-gradle-plugin'
+include ':app',
+        ':bus',
+        ':bus-gradle-plugin',
+        ':module0',
+        ':module1'

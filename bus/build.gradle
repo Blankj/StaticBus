@@ -1,0 +1,13 @@
+plugins {
+    id 'java'
+    id "com.github.dcendents.android-maven" version "2.1"
+    id "com.jfrog.bintray" version "1.8.0"
+}
+
+group = 'com.blankj'
+version = '0.0.1'
+
+
+apply from: "../gradle/bintrayUpload.gradle"
+
+//./gradlew :bus bintrayUpload
