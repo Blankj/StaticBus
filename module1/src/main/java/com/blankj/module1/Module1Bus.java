@@ -1,6 +1,5 @@
 package com.blankj.module1;
 
-import com.blankj.common.Common;
 import com.blankj.utilcode.util.BusUtils;
 import com.blankj.utilcode.util.LogUtils;
 
@@ -12,7 +11,6 @@ import com.blankj.utilcode.util.LogUtils;
  *     desc  :
  * </pre>
  */
-@BusUtils.Bus
 public class Module1Bus {
 
     @BusUtils.Subscribe(name = "module1")

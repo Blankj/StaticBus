@@ -1,10 +1,15 @@
-plugins {
-    id 'groovy'
-    id 'java-gradle-plugin'
-//    id 'maven'
-    id "com.gradle.plugin-publish" version "0.10.0"
-    id "com.github.dcendents.android-maven" version "2.1"
-    id "com.jfrog.bintray" version "1.8.0"
+apply {
+    plugin 'groovy'
+    plugin 'java-gradle-plugin'
+//    plugin: 'com.gradle.plugin-publish'
+    if (rootProject.localDebugPlugin) {
+        plugin 'maven'
+        from "../gradle/localMavenUpload.gradle"
+    } else {
+        plugin 'com.github.dcendents.android-maven'
+        plugin 'com.jfrog.bintray'
+        from "../gradle/bintrayUpload.gradle"
+    }
 }
 
 gradlePlugin {
@@ -21,15 +26,12 @@ dependencies {
     implementation 'javassist:javassist:3.12.1.GA'
     implementation 'commons-io:commons-io:2.5'
     implementation 'junit:junit:4.12'
-    compileOnly project(':bus')
 }
 
 group = rootProject.group
 version = rootProject.versionName
 
-apply from: "../gradle/localMavenUpload.gradle"
-apply from: "../gradle/pluginUpload.gradle"
-apply from: "../gradle/bintrayUpload.gradle"
+//apply from: "../gradle/pluginUpload.gradle"
 
-//./gradlew :bus-gradle-plugin bintrayUpload
+//./gradlew bus-gradle-plugin:bintrayUpload
 //./gradlew publishPlugins

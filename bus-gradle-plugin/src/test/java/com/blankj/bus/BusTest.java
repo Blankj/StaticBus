@@ -1,5 +1,6 @@
 package com.blankj.bus;
 
+
 import org.junit.Test;
 
 /**

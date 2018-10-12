@@ -26,7 +26,7 @@ class BusTransform extends Transform {
 
     @Override
     boolean isIncremental() {
-        return true
+        return false
     }
 
     @Override
@@ -42,9 +42,10 @@ class BusTransform extends Transform {
         def outputProvider = transformInvocation.getOutputProvider()
         def isIncremental = transformInvocation.isIncremental()
 
-        if (!isIncremental) {
-            outputProvider.deleteAll()
-        }
+        outputProvider.deleteAll()
+
+        // 加入本地 android 包
+        Config.POOL.appendClassPath(Utils.getProject().android.bootClasspath[0].toString())
 
         inputs.each { TransformInput input ->
             input.directoryInputs.each { DirectoryInput directoryInput ->// 遍历文件夹
@@ -55,8 +56,11 @@ class BusTransform extends Transform {
                         Format.DIRECTORY
                 )
 
+
                 FileUtils.copyDirectory(directoryInput.file, dest)
-                LogUtils.l(directoryInput.name)
+                Config.POOL.appendClassPath(dest.getAbsolutePath())
+                LogUtils.l(directoryInput.name + " -> " + dest)
+
                 BusScan.SCANS.add(dest)
             }
 
@@ -70,27 +74,32 @@ class BusTransform extends Transform {
                 )
 
                 FileUtils.copyFile(jarInput.file, dest)
+                Config.POOL.appendClassPath(dest.getAbsolutePath())
+                LogUtils.l(jarName + " -> " + dest)
 
                 if (!jarName.startsWith('com.android.support:')
                         && !jarName.startsWith('android.arch.')) {
                     if (jarName.startsWith("com.blankj:bus:")) {
-                        BusScan.UTIL_CODE_JAR = dest
+                        BusScan.BUS_JAR = dest
                     } else {
-                        LogUtils.l(jarName)
-                        BusScan.SCANS.add(dest)
+                        if (!jarName.startsWith("com.blankj:utilcode:")) {
+                            BusScan.SCANS.add(dest)
+                        }
                     }
                 }
             }
         }
 
-        if (BusScan.UTIL_CODE_JAR != null) {
+        if (BusScan.BUS_JAR != null) {
             HashMap<String, String> bus = BusScan.start()
             File jsonFile = new File(Utils.project.rootDir.getAbsolutePath(), "__bus__.json")
-            FileUtils.write(jsonFile, JsonUtils.getFormatJson(bus))
+            String busJson = JsonUtils.getFormatJson(bus)
+            FileUtils.write(jsonFile, busJson)
+            LogUtils.l(busJson)
             BusInject.start(bus)
         } else {
-            LogUtils.l('u should <implementation "com.blankj:utilcode:1.30.+>" ' +
-                    'or <implementation "com.blankj:bus:1.0+>')
+            LogUtils.l('u should <implementation "com.blankj:utilcode:1.30.+"> ' +
+                    'or <implementation "com.blankj:bus:1.0+">')
         }
 
         LogUtils.l(getName() + " finished: " + (System.currentTimeMillis() - stTime) + "ms")

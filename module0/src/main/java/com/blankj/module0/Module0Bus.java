@@ -1,5 +1,7 @@
 package com.blankj.module0;
 
+import android.content.Context;
+
 import com.blankj.utilcode.util.BusUtils;
 import com.blankj.utilcode.util.LogUtils;
 
@@ -11,7 +13,6 @@ import com.blankj.utilcode.util.LogUtils;
  *     desc  :
  * </pre>
  */
-@BusUtils.Bus
 public class Module0Bus {
 
     @BusUtils.Subscribe(name = "module0")

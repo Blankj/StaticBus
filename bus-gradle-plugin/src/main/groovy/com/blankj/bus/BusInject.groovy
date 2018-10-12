@@ -1,29 +1,24 @@
 package com.blankj.bus
 
-import com.blankj.util.LogUtils
-import com.blankj.util.Utils
 import com.blankj.util.ZipUtils
 import javassist.CtClass
 import javassist.CtMethod
-import jdk.internal.org.objectweb.asm.tree.analysis.Value
 import org.apache.commons.io.FileUtils
 
 class BusInject {
 
     static void start(HashMap<String, String> bus) {
-        Config.POOL.appendClassPath(Utils.getProject().android.bootClasspath[0].toString())
-
-        File jar = BusScan.UTIL_CODE_JAR
+        File jar = BusScan.BUS_JAR
         String jarPath = jar.getAbsolutePath()
         String decompressedJarPath = jarPath.substring(0, jarPath.length() - 4);
         File decompressedJar = new File(decompressedJarPath)
         ZipUtils.unzipFile(jar, decompressedJar)
-        Config.POOL.appendClassPath(decompressedJarPath)
 
         CtClass busUtils = Config.POOL.get(Config.CLASS_BUS_UTILS)
         CtMethod callMethod = busUtils.getDeclaredMethod("post");
         callMethod.insertAfter(getInsertContent(bus));
         busUtils.writeFile(decompressedJarPath)
+        busUtils.defrost();
         FileUtils.forceDelete(jar)
         ZipUtils.zipFile(decompressedJar, jar)
         FileUtils.forceDelete(decompressedJar)
@@ -52,10 +47,11 @@ class BusInject {
             if (returnType.equals('void')) {
                 sb.append(methodName).append(';\n').append('return null;\n');
             } else {
-                sb.append('return ').append(methodName).append(';\n');
+                sb.append('return ($w)').append(methodName).append(';\n');
             }
             sb.append("}");
         }
+        sb.append('android.util.Log.e("BusUtils", "bus of <" + $1 + "> didn\'t exist.");');
         return sb.toString()
     }
 }

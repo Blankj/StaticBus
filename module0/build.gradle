@@ -19,11 +19,6 @@ android {
 }
 
 dependencies {
-    implementation rootProject.dep.jars
-    implementation rootProject.dep.appcompat_v7
-    implementation rootProject.dep.constraint_layout
-    implementation rootProject.dep.utilcode
+    api project(':common')
     testImplementation rootProject.dep.junit
-    
-    compileOnly project(':common')
 }

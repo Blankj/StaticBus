@@ -19,7 +19,6 @@ android {
 }
 
 dependencies {
-    api rootProject.dep.jars
     api rootProject.dep.appcompat_v7
     api rootProject.dep.constraint_layout
     api rootProject.dep.utilcode

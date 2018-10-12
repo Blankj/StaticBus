@@ -7,11 +7,6 @@ import java.lang.annotation.Target;
 
 public final class BusUtils {
 
-    public static <T> T post(String name, Object... objects) {
-        if (name == null || name.length() == 0) return null;
-        return null;
-    }
-
     @Target({ElementType.METHOD})
     @Retention(RetentionPolicy.CLASS)
     public @interface Subscribe {

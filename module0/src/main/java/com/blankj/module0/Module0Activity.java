@@ -7,11 +7,10 @@ import android.os.Bundle;
 
 import com.blankj.utilcode.util.BusUtils;
 
-@BusUtils.Bus
 public class Module0Activity extends Activity {
 
     @BusUtils.Subscribe(name = "startModule0")
-    public static boolean start(Context context) {
+    public static boolean start1(Context context) {
         Intent starter = new Intent(context, Module0Activity.class);
         context.startActivity(starter);
         return true;

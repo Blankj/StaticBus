@@ -11,6 +11,7 @@ if (projectPropertiesFile.exists()) {
 
 // read properties
 def projectName = properties.getProperty("project.name")
+def projectGroupId = properties.getProperty("project.groupId")
 def projectSiteUrl = properties.getProperty("project.siteUrl")
 def projectGitUrl = properties.getProperty("project.gitUrl")
 

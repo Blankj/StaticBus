@@ -11,12 +11,11 @@ class BusScan {
 
     private static HashMap<String, String> BUS_MAP = [:]
     public static List<File> SCANS = []
-    public static File UTIL_CODE_JAR = null
+    public static File BUS_JAR = null
 
     static HashMap<String, String> start() {
         BUS_MAP.clear()
         SCANS.each { File file ->
-//            Config.POOL.appendClassPath(file.absolutePath)
             if (file.name.endsWith(".jar")) {// process jar
                 scanJar(file)
             } else {
@@ -56,7 +55,6 @@ class BusScan {
                 className = className.substring(0, className.length() - 6)
 
                 CtClass ctClass = Config.POOL.get(className)
-                if (!ctClass.hasAnnotation(BusUtils.Bus)) return
 
                 CtMethod[] methods = ctClass.getDeclaredMethods();
                 for (CtMethod method : methods) {
