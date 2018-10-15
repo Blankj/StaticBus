@@ -1,5 +1,4 @@
 {
-  "lib": "java.lang.String com.blankj.utilcode.BusTest.libBus(java.lang.String)",
   "startModule0": "boolean com.blankj.module0.Module0Activity.start(android.content.Context,java.lang.String,int)",
   "module0": "java.lang.String com.blankj.module0.Module0Bus.module0Bus(boolean,byte,short,char,int,long,float,double)",
   "startModule1": "boolean com.blankj.module1.Module1Activity.start(android.content.Context)",

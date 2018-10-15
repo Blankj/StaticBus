@@ -14,7 +14,7 @@
 buildscript {
     dependencies {
         ...
-        classpath "gradle.plugin.com.blankj:bus-gradle-plugin:0.1"
+        classpath "gradle.plugin.com.blankj:bus-gradle-plugin:1.0"
     }
 }
 ```
@@ -50,7 +50,9 @@ boolean result = BusUtils.post("startModule0", context, "blankj", 18);
 点击编译之后会在项目根目录生成 `__bus__.json` 文件
 
 ```txt
-
+{
+  "startModule0": "boolean com.blankj.module0.Module0Activity.start(android.content.Context,java.lang.String,int)"
+}
 ```
 
 

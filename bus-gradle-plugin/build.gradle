@@ -1,8 +1,8 @@
 apply {
     plugin 'groovy'
     plugin 'java-gradle-plugin'
-//    plugin 'com.gradle.plugin-publish'
-//    from "../gradle/pluginUpload.gradle"
+    plugin 'com.gradle.plugin-publish'
+    from "../gradle/pluginUpload.gradle"
     if (rootProject.localDebugPlugin) {
         plugin 'maven'
         from "../gradle/localMavenUpload.gradle"
