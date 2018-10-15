@@ -1,5 +1,7 @@
 package com.blankj.bus
 
+import com.android.build.api.transform.QualifiedContent
+import com.blankj.util.LogUtils
 import com.blankj.util.ZipUtils
 import com.blankj.utilcode.util.BusUtils
 import groovy.io.FileType
@@ -9,30 +11,26 @@ import org.apache.commons.io.FileUtils
 
 class BusScan {
 
-    private static HashMap<String, String> BUS_MAP = [:]
-    public static List<File> SCANS = []
-    public static File BUS_JAR = null
 
-    static HashMap<String, String> start() {
-        BUS_MAP.clear()
-        SCANS.each { File file ->
-            if (file.name.endsWith(".jar")) {// process jar
-                scanJar(file)
-            } else {
-                scanDir(file)
-            }
-        }
-        return BUS_MAP
+    HashMap<String, String> busMap
+    List<File> scans
+    File busJar
+
+    BusScan() {
+        busMap = [:]
+        scans = []
     }
 
-    private static void scanJar(File jar) {
+    void scanJar(QualifiedContent content) {
+        File jar = content.file
         def tmp = new File(jar.getParent(), "temp_" + jar.getName())
         ZipUtils.unzipFile(jar, tmp)
         scanDir(tmp)
         FileUtils.forceDelete(tmp)
     }
 
-    private static void scanDir(File root) {
+    void scanDir(QualifiedContent content) {
+        File root = content.file
         String rootPath = root.getAbsolutePath()
         if (!rootPath.endsWith(Config.FILE_SEP)) {
             rootPath += Config.FILE_SEP
@@ -54,14 +52,15 @@ class BusScan {
                 // delete .class
                 className = className.substring(0, className.length() - 6)
 
-                CtClass ctClass = Config.POOL.get(className)
+                CtClass ctClass = Config.mPool.get(className)
 
                 CtMethod[] methods = ctClass.getDeclaredMethods();
                 for (CtMethod method : methods) {
                     if (method.hasAnnotation(BusUtils.Subscribe)) {
-                        BUS_MAP.put(method.getAnnotation(BusUtils.Subscribe).name(),
+                        busMap.put(method.getAnnotation(BusUtils.Subscribe).name(),
                                 method.getReturnType().getName() + ' ' + method.getLongName()
                         )
+//                        LogUtils.l(content.name + " -> " + dest)
                     }
                 }
             }

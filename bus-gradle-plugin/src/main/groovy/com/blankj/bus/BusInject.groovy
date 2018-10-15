@@ -7,20 +7,19 @@ import org.apache.commons.io.FileUtils
 
 class BusInject {
 
-    static void start(HashMap<String, String> bus) {
-        File jar = BusScan.BUS_JAR
-        String jarPath = jar.getAbsolutePath()
+    static void start(HashMap<String, String> bus, File busJar) {
+        String jarPath = busJar.getAbsolutePath()
         String decompressedJarPath = jarPath.substring(0, jarPath.length() - 4);
         File decompressedJar = new File(decompressedJarPath)
-        ZipUtils.unzipFile(jar, decompressedJar)
+        ZipUtils.unzipFile(busJar, decompressedJar)
 
-        CtClass busUtils = Config.POOL.get(Config.CLASS_BUS_UTILS)
+        CtClass busUtils = Config.mPool.get(Config.CLASS_BUS_UTILS)
         CtMethod callMethod = busUtils.getDeclaredMethod("post");
         callMethod.insertAfter(getInsertContent(bus));
         busUtils.writeFile(decompressedJarPath)
         busUtils.defrost();
-        FileUtils.forceDelete(jar)
-        ZipUtils.zipFile(decompressedJar, jar)
+        FileUtils.forceDelete(busJar)
+        ZipUtils.zipFile(decompressedJar, busJar)
         FileUtils.forceDelete(decompressedJar)
     }
 

@@ -5,7 +5,10 @@ import com.android.build.gradle.internal.pipeline.TransformManager
 import com.blankj.util.JsonUtils
 import com.blankj.util.LogUtils
 import com.blankj.util.Utils
+import org.apache.commons.codec.digest.DigestUtils
 import org.apache.commons.io.FileUtils
+
+import java.util.function.Consumer
 
 class BusTransform extends Transform {
 
@@ -44,59 +47,52 @@ class BusTransform extends Transform {
 
         outputProvider.deleteAll()
 
-        // 加入本地 android 包
-        Config.POOL.appendClassPath(Utils.getProject().android.bootClasspath[0].toString())
+        Config.initClassPool()
+        BusScan busScan = new BusScan()
 
         inputs.each { TransformInput input ->
-            input.directoryInputs.each { DirectoryInput directoryInput ->// 遍历文件夹
-                File dest = outputProvider.getContentLocation(
-                        directoryInput.name,
-                        directoryInput.contentTypes,
-                        directoryInput.scopes,
-                        Format.DIRECTORY
-                )
+            input.directoryInputs.each { DirectoryInput dirInput ->// 遍历文件夹
+                Config.mPool.appendClassPath(dirInput.file.absolutePath)
 
-
-                FileUtils.copyDirectory(directoryInput.file, dest)
-                Config.POOL.appendClassPath(dest.getAbsolutePath())
-                LogUtils.l(directoryInput.name + " -> " + dest)
-
-                BusScan.SCANS.add(dest)
+                busScan.scanDir(dirInput)
             }
 
             input.jarInputs.each { JarInput jarInput ->// 遍历 jar 文件
+                File jar = jarInput.file
+                Config.mPool.appendClassPath(jarInput.file.absolutePath)
                 def jarName = jarInput.name
-                def dest = outputProvider.getContentLocation(
-                        jarName,
-                        jarInput.contentTypes,
-                        jarInput.scopes,
-                        Format.JAR
-                )
 
-                FileUtils.copyFile(jarInput.file, dest)
-                Config.POOL.appendClassPath(dest.getAbsolutePath())
-                LogUtils.l(jarName + " -> " + dest)
-
-                if (!jarName.startsWith('com.android.support:')
-                        && !jarName.startsWith('android.arch.')) {
-                    if (jarName.startsWith("com.blankj:bus:")) {
-                        BusScan.BUS_JAR = dest
-                    } else {
-                        if (!jarName.startsWith("com.blankj:utilcode:")) {
-                            BusScan.SCANS.add(dest)
-                        }
+                boolean isExcept = false
+                for (String except : Config.EXCEPTS) {
+                    if (jarName.startsWith(except)) {
+                        isExcept = true
+                        break
                     }
                 }
+                if (isExcept) return
+
+                if (jarName.startsWith("com.blankj:bus:")) {
+                    def dest = outputProvider.getContentLocation(
+                            jarName,
+                            jarInput.contentTypes,
+                            jarInput.scopes,
+                            Format.JAR
+                    )
+                    FileUtils.copyFile(jar, dest)
+                    busScan.busJar = dest
+                    return
+                }
+
+                busScan.scanJar(jarInput)
             }
         }
 
-        if (BusScan.BUS_JAR != null) {
-            HashMap<String, String> bus = BusScan.start()
+        if (busScan.busJar != null) {
             File jsonFile = new File(Utils.project.rootDir.getAbsolutePath(), "__bus__.json")
-            String busJson = JsonUtils.getFormatJson(bus)
+            String busJson = JsonUtils.getFormatJson(busScan.busMap)
             FileUtils.write(jsonFile, busJson)
             LogUtils.l(busJson)
-            BusInject.start(bus)
+            BusInject.start(busScan.busMap, busScan.busJar)
         } else {
             LogUtils.l('u should <implementation "com.blankj:utilcode:1.30.+"> ' +
                     'or <implementation "com.blankj:bus:1.0+">')

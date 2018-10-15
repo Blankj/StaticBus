@@ -10,7 +10,7 @@ import com.blankj.utilcode.util.BusUtils;
 public class Module0Activity extends Activity {
 
     @BusUtils.Subscribe(name = "startModule0")
-    public static boolean start1(Context context) {
+    public static boolean start(Context context) {
         Intent starter = new Intent(context, Module0Activity.class);
         context.startActivity(starter);
         return true;
