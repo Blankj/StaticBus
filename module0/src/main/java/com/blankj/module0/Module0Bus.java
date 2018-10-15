@@ -1,7 +1,5 @@
 package com.blankj.module0;
 
-import android.content.Context;
-
 import com.blankj.utilcode.util.BusUtils;
 import com.blankj.utilcode.util.LogUtils;
 
@@ -16,8 +14,15 @@ import com.blankj.utilcode.util.LogUtils;
 public class Module0Bus {
 
     @BusUtils.Subscribe(name = "module0")
-    public static String module0Bus(String name) {
-        LogUtils.e(name);
+    public static String module0Bus(boolean bo,
+                                    byte b,
+                                    short s,
+                                    char c,
+                                    int i,
+                                    long l,
+                                    float f,
+                                    double d) {
+        LogUtils.e(bo, b, s, c, i, l, f, d);
         return "module0Bus";
     }
 }

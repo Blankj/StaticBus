@@ -31,26 +31,45 @@ class BusInject {
             String returnType = method[0]
             String methodName = method[1]
 
-            sb.append('if ("').append(name).append('".equals($1)) {\n');
+            sb.append('if ("').append(name).append('".equals($1)) {\n')
 
-            int st = methodName.indexOf('(');
-            int end = methodName.length();
+            int st = methodName.indexOf('(')
+            int end = methodName.length()
             String substring = methodName.substring(st + 1, end - 1);
-            String[] split = substring.split(",");
-            StringBuilder args = new StringBuilder();
+            String[] split = substring.split(",")
+
+            StringBuilder args = new StringBuilder()
             for (int i = 0; i < split.length; i++) {
-                args.append(',(').append(split[i]).append(')$2[').append(i).append(']');
+                if (split[i] == 'char') {
+                    args.append(',$2[').append(i).append('].toString().charAt(0)')
+                } else if (split[i] == 'boolean') {
+                    args.append(',Boolean.parseBoolean($2[').append(i).append('].toString())')
+                } else if (split[i] == 'byte') {
+                    args.append(',Byte.parseByte($2[').append(i).append('].toString())')
+                } else if (split[i] == 'short') {
+                    args.append(',Short.parseShort($2[').append(i).append('].toString())')
+                } else if (split[i] == 'int') {
+                    args.append(',Integer.parseInt($2[').append(i).append('].toString())')
+                } else if (split[i] == 'long') {
+                    args.append(',Long.parseLong($2[').append(i).append('].toString())')
+                } else if (split[i] == 'float') {
+                    args.append(',Float.parseFloat($2[').append(i).append('].toString())')
+                } else if (split[i] == 'double') {
+                    args.append(',Double.parseDouble($2[').append(i).append('].toString())')
+                } else {
+                    args.append(',(').append(split[i]).append(')$2[').append(i).append(']')
+                }
             }
-            methodName = methodName.substring(0, st + 1) + args.substring(1) + ")";
+            methodName = methodName.substring(0, st + 1) + args.substring(1) + ")"
 
             if (returnType.equals('void')) {
-                sb.append(methodName).append(';\n').append('return null;\n');
+                sb.append(methodName).append(';\n').append('return null;\n')
             } else {
-                sb.append('return ($w)').append(methodName).append(';\n');
+                sb.append('return ($w)').append(methodName).append(';\n')
             }
-            sb.append("}");
+            sb.append("}")
         }
-        sb.append('android.util.Log.e("BusUtils", "bus of <" + $1 + "> didn\'t exist.");');
+        sb.append('android.util.Log.e("BusUtils", "bus of <" + $1 + "> didn\'t exist.");')
         return sb.toString()
     }
 }

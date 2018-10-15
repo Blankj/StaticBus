@@ -1,7 +1,5 @@
-apply {
-    plugin "com.android.application"
-    plugin "com.blankj.bus"
-}
+apply plugin: "com.android.application"
+apply plugin: "com.blankj.bus"
 
 android {
     compileSdkVersion rootProject.compileSdkVersion

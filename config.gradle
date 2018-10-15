@@ -12,7 +12,7 @@ ext {
     targetSdkVersion = 27
 
     versionCode = 1
-    versionName = '0.0.1.5'
+    versionName = '1.0'
 
     supportVersion = '27.1.1'
 
@@ -26,3 +26,4 @@ ext {
     ]
 
 }
+//rootProject.allprojects.

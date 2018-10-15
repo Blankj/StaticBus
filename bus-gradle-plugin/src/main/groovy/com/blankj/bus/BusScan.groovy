@@ -1,7 +1,5 @@
 package com.blankj.bus
 
-import com.android.build.api.transform.QualifiedContent
-import com.blankj.util.LogUtils
 import com.blankj.util.ZipUtils
 import com.blankj.utilcode.util.BusUtils
 import groovy.io.FileType
@@ -10,7 +8,6 @@ import javassist.CtMethod
 import org.apache.commons.io.FileUtils
 
 class BusScan {
-
 
     HashMap<String, String> busMap
     List<File> scans
@@ -21,16 +18,14 @@ class BusScan {
         scans = []
     }
 
-    void scanJar(QualifiedContent content) {
-        File jar = content.file
-        def tmp = new File(jar.getParent(), "temp_" + jar.getName())
+    void scanJar(File jar) {
+        File tmp = new File(jar.getParent(), "temp_" + jar.getName())
         ZipUtils.unzipFile(jar, tmp)
         scanDir(tmp)
         FileUtils.forceDelete(tmp)
     }
 
-    void scanDir(QualifiedContent content) {
-        File root = content.file
+    void scanDir(File root) {
         String rootPath = root.getAbsolutePath()
         if (!rootPath.endsWith(Config.FILE_SEP)) {
             rootPath += Config.FILE_SEP
@@ -57,10 +52,9 @@ class BusScan {
                 CtMethod[] methods = ctClass.getDeclaredMethods();
                 for (CtMethod method : methods) {
                     if (method.hasAnnotation(BusUtils.Subscribe)) {
-                        busMap.put(method.getAnnotation(BusUtils.Subscribe).name(),
-                                method.getReturnType().getName() + ' ' + method.getLongName()
-                        )
-//                        LogUtils.l(content.name + " -> " + dest)
+                        String name = method.getAnnotation(BusUtils.Subscribe).name()
+                        String sign = method.getReturnType().getName() + ' ' + method.getLongName()
+                        busMap.put(name, sign)
                     }
                 }
             }

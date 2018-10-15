@@ -5,10 +5,7 @@ import com.android.build.gradle.internal.pipeline.TransformManager
 import com.blankj.util.JsonUtils
 import com.blankj.util.LogUtils
 import com.blankj.util.Utils
-import org.apache.commons.codec.digest.DigestUtils
 import org.apache.commons.io.FileUtils
-
-import java.util.function.Consumer
 
 class BusTransform extends Transform {
 
@@ -52,38 +49,46 @@ class BusTransform extends Transform {
 
         inputs.each { TransformInput input ->
             input.directoryInputs.each { DirectoryInput dirInput ->// 遍历文件夹
-                Config.mPool.appendClassPath(dirInput.file.absolutePath)
+                File dir = dirInput.file
+                Config.mPool.appendClassPath(dir.absolutePath)
 
-                busScan.scanDir(dirInput)
+                def dest = outputProvider.getContentLocation(
+                        dirInput.name,
+                        dirInput.contentTypes,
+                        dirInput.scopes,
+                        Format.DIRECTORY
+                )
+                FileUtils.copyDirectory(dir, dest)
+
+                LogUtils.l("scan " + dirInput.name)
+                busScan.scanDir(dir)
             }
 
             input.jarInputs.each { JarInput jarInput ->// 遍历 jar 文件
                 File jar = jarInput.file
                 Config.mPool.appendClassPath(jarInput.file.absolutePath)
-                def jarName = jarInput.name
 
-                boolean isExcept = false
-                for (String except : Config.EXCEPTS) {
-                    if (jarName.startsWith(except)) {
-                        isExcept = true
-                        break
-                    }
+                def jarName = jarInput.name
+                def dest = outputProvider.getContentLocation(
+                        jarName,
+                        jarInput.contentTypes,
+                        jarInput.scopes,
+                        Format.JAR
+                )
+                FileUtils.copyFile(jar, dest)
+
+                if (jumpScan(jarName)) {
+                    LogUtils.l("jump " + jarName)
+                    return
                 }
-                if (isExcept) return
 
                 if (jarName.startsWith("com.blankj:bus:")) {
-                    def dest = outputProvider.getContentLocation(
-                            jarName,
-                            jarInput.contentTypes,
-                            jarInput.scopes,
-                            Format.JAR
-                    )
-                    FileUtils.copyFile(jar, dest)
                     busScan.busJar = dest
                     return
                 }
 
-                busScan.scanJar(jarInput)
+                LogUtils.l("scan " + jarName)
+                busScan.scanJar(jar)
             }
         }
 
@@ -99,5 +104,16 @@ class BusTransform extends Transform {
         }
 
         LogUtils.l(getName() + " finished: " + (System.currentTimeMillis() - stTime) + "ms")
+    }
+
+    private static boolean jumpScan(String jarName) {
+        boolean isExcept = false
+        for (String except : Config.EXCEPTS) {
+            if (jarName.startsWith(except)) {
+                isExcept = true
+                break
+            }
+        }
+        isExcept
     }
 }
