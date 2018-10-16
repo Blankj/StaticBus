@@ -25,6 +25,18 @@ buildscript {
 apply plugin: "com.blankj.bus"
 ```
 
+添加 bus 依赖：
+
+```groovy
+implementation "com.blankj:bus:1.0"
+```
+
+或者 [AndroidUtilCode](https://github.com/Blankj/AndroidUtilCode) 依赖
+```groovy
+implementation "com.blankj:utilcode:1.21.0+"
+```
+
+
 比如 module0 中存在的 `Module0Activity.java`，我们通常都是在它内部写一个 `start` 函数来启动它，现在我们给它添加 `@BusUtils.Subscribe` 注解，并给注解的 `name` 赋唯一值，要注意，函数务必要 `public static` 哦：
 
 ```java

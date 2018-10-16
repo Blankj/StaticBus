@@ -5,6 +5,14 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * <pre>
+ *     author: Blankj
+ *     blog  : http://blankj.com
+ *     time  : 2018/10/02
+ *     desc  : utils about bus, and the site of https://github.com/Blankj/StaticBus will help u.
+ * </pre>
+ */
 public final class BusUtils {
 
     public static <T> T post(String name, Object... objects) {
