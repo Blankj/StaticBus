@@ -3,7 +3,7 @@
 
 ## 关于
 
-组件化开发会涉及到模块与模块之间相互调用，而各模块之间又是解偶的，所以就产生了很多路由方案，但在 **[StaticBus][bus]** 看来，它们都略显复杂，**[StaticBus][bus]** 只需调用一个静态函数便可自由穿梭于各个模块，就像一辆巴士，由于是基于静态函数来实现，所以称她为 **[StaticBus][bus]**。
+组件化开发会涉及到模块与模块之间相互调用，而各模块之间又是解偶的，所以就产生了很多路由方案，或者是把接口下沉到 `base` 组件中，但在 **[StaticBus][bus]** 看来，它们都略显复杂，**[StaticBus][bus]** 只需调用一个静态函数便可自由穿梭于各个模块，就像一辆巴士，由于是基于静态函数来实现，所以称她为 **[StaticBus][bus]**。
 
 
 ## 基本使用
@@ -14,7 +14,7 @@
 buildscript {
     dependencies {
         ...
-        classpath "gradle.plugin.com.blankj:bus-gradle-plugin:1.0"
+        classpath 'com.blankj:bus-gradle-plugin:1.0'
     }
 }
 ```
@@ -25,15 +25,16 @@ buildscript {
 apply plugin: "com.blankj.bus"
 ```
 
-添加 bus 依赖：
+给 base 模块添加 bus 依赖：
 
 ```groovy
-implementation "com.blankj:bus:1.0"
+api "com.blankj:bus:1.0"
 ```
 
-或者 [AndroidUtilCode](https://github.com/Blankj/AndroidUtilCode) 依赖
+或者 [AndroidUtilCode](https://github.com/Blankj/AndroidUtilCode) 依赖：
+
 ```groovy
-implementation "com.blankj:utilcode:1.21.0+"
+api "com.blankj:utilcode:1.21.0+"
 ```
 
 

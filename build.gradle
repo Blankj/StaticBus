@@ -3,11 +3,11 @@ buildscript {
 
     repositories {
         apply from: 'config.gradle'
-        if (localDebugPlugin) {
-            maven() {
-                url uri(new File(project.rootDir, "maven"))
-            }
-        }
+//        if (localDebugPlugin) {
+//            maven() {
+//                url uri(new File(project.rootDir, "maven"))
+//            }
+//        }
         google()
         jcenter()
         maven {
@@ -15,7 +15,8 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.0'
+        classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
 
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
