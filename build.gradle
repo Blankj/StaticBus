@@ -3,11 +3,11 @@ buildscript {
 
     repositories {
         apply from: 'config.gradle'
-//        if (localDebugPlugin) {
-//            maven() {
-//                url uri(new File(project.rootDir, "maven"))
-//            }
-//        }
+        if (localDebugPlugin) {
+            maven() {
+                url uri(new File(project.rootDir, "maven"))
+            }
+        }
         google()
         jcenter()
         maven {
@@ -23,7 +23,7 @@ buildscript {
 
         classpath "com.gradle.publish:plugin-publish-plugin:0.10.0"
 
-        classpath 'com.blankj:bus-gradle-plugin:1.0'
+        classpath 'com.blankj:bus-gradle-plugin:1.2'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         LogUtils.e(BusUtils.post("module0", true, (byte)-1, Short.MAX_VALUE, 'C', 127, Long.MAX_VALUE, -1f, 2));
-        LogUtils.e(BusUtils.post("module1", "app to module1"));
+        LogUtils.e(BusUtils.post("module1"));
         LogUtils.e(BusUtils.post("lib", "app to lib"));
         LogUtils.e(BusUtils.post("lib1", "app to lib"));
     }

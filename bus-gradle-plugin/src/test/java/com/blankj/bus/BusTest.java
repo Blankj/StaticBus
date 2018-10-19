@@ -15,6 +15,12 @@ public class BusTest {
 
     @Test
     public void test() throws Exception {
+        String methodName = "()";
+        int st = methodName.indexOf('(');
+        int end = methodName.length();
+        System.out.println((st + 1) + "" + (end - 1));
+        String substring = methodName.substring(st + 1, end - 1);
 
+        System.out.println(substring.equals(""));
     }
 }

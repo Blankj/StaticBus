@@ -5,14 +5,14 @@ ext {
 
     busVersion = '1.0'
 
-    localDebugPlugin = true
+    localDebugPlugin = false
 
     compileSdkVersion = 27
     minSdkVersion = 14
     targetSdkVersion = 27
 
     versionCode = 1
-    versionName = '1.0'
+    versionName = '1.2'
 
 
     supportVersion = '27.1.1'

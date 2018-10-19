@@ -14,8 +14,7 @@ import com.blankj.utilcode.util.LogUtils;
 public class Module1Bus {
 
     @BusUtils.Subscribe(name = "module1")
-    public static String module1Bus(String name) {
-        LogUtils.e(name);
-        return "module1Bus";
+    public static void module1Bus() {
+        LogUtils.e("module1");
     }
 }

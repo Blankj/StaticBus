@@ -35,32 +35,34 @@ class BusInject {
 
             int st = methodName.indexOf('(')
             int end = methodName.length()
-            String substring = methodName.substring(st + 1, end - 1);
-            String[] split = substring.split(",")
+            String params = methodName.substring(st + 1, end - 1);
+            if (params != '') {
+                String[] paramArr = params.split(",")
 
-            StringBuilder args = new StringBuilder()
-            for (int i = 0; i < split.length; i++) {
-                if (split[i] == 'char') {
-                    args.append(',$2[').append(i).append('].toString().charAt(0)')
-                } else if (split[i] == 'boolean') {
-                    args.append(',Boolean.parseBoolean($2[').append(i).append('].toString())')
-                } else if (split[i] == 'byte') {
-                    args.append(',Byte.parseByte($2[').append(i).append('].toString())')
-                } else if (split[i] == 'short') {
-                    args.append(',Short.parseShort($2[').append(i).append('].toString())')
-                } else if (split[i] == 'int') {
-                    args.append(',Integer.parseInt($2[').append(i).append('].toString())')
-                } else if (split[i] == 'long') {
-                    args.append(',Long.parseLong($2[').append(i).append('].toString())')
-                } else if (split[i] == 'float') {
-                    args.append(',Float.parseFloat($2[').append(i).append('].toString())')
-                } else if (split[i] == 'double') {
-                    args.append(',Double.parseDouble($2[').append(i).append('].toString())')
-                } else {
-                    args.append(',(').append(split[i]).append(')$2[').append(i).append(']')
+                StringBuilder args = new StringBuilder()
+                for (int i = 0; i < paramArr.length; i++) {
+                    if (paramArr[i] == 'char') {
+                        args.append(',$2[').append(i).append('].toString().charAt(0)')
+                    } else if (paramArr[i] == 'boolean') {
+                        args.append(',Boolean.parseBoolean($2[').append(i).append('].toString())')
+                    } else if (paramArr[i] == 'byte') {
+                        args.append(',Byte.parseByte($2[').append(i).append('].toString())')
+                    } else if (paramArr[i] == 'short') {
+                        args.append(',Short.parseShort($2[').append(i).append('].toString())')
+                    } else if (paramArr[i] == 'int') {
+                        args.append(',Integer.parseInt($2[').append(i).append('].toString())')
+                    } else if (paramArr[i] == 'long') {
+                        args.append(',Long.parseLong($2[').append(i).append('].toString())')
+                    } else if (paramArr[i] == 'float') {
+                        args.append(',Float.parseFloat($2[').append(i).append('].toString())')
+                    } else if (paramArr[i] == 'double') {
+                        args.append(',Double.parseDouble($2[').append(i).append('].toString())')
+                    } else {
+                        args.append(',(').append(paramArr[i]).append(')$2[').append(i).append(']')
+                    }
                 }
+                methodName = methodName.substring(0, st + 1) + args.substring(1) + ")"
             }
-            methodName = methodName.substring(0, st + 1) + args.substring(1) + ")"
 
             if (returnType.equals('void')) {
                 sb.append(methodName).append(';\n').append('return null;\n')
