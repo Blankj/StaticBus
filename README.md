@@ -13,7 +13,7 @@
 buildscript {
     dependencies {
         ...
-        classpath 'com.blankj:bus-gradle-plugin:1.2'
+        classpath 'com.blankj:bus-gradle-plugin:1.3'
     }
 }
 ```
@@ -59,7 +59,7 @@ public class Module0Activity extends Activity {
 boolean result = BusUtils.post("startModule0", context, "blankj", 18);
 ```
 
-点击编译之后会在项目根目录生成 `__bus__.json` 文件
+点击编译之后会在该 application 模块中生成 `__bus__.json` 文件
 
 ```txt
 {

@@ -93,7 +93,7 @@ class BusTransform extends Transform {
         }
 
         if (busScan.busJar != null) {
-            File jsonFile = new File(Utils.project.rootDir.getAbsolutePath(), "__bus__.json")
+            File jsonFile = new File(Utils.project.projectDir.getAbsolutePath(), "__bus__.json")
             String busJson = JsonUtils.getFormatJson(busScan.busMap)
             FileUtils.write(jsonFile, busJson)
             LogUtils.l(busJson)

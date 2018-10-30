@@ -9,7 +9,7 @@ apply {
     } else {
         plugin 'com.github.dcendents.android-maven'
         plugin 'com.jfrog.bintray'
-        from "../gradle/bintrayUpload.gradle"
+        from "../gradle/bintrayUploadJava.gradle"
     }
 }
 

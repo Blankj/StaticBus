@@ -9,6 +9,13 @@ import com.blankj.utilcode.util.BusUtils;
 
 public class Module0Activity extends Activity {
 
+    public static boolean start(Context context, String name) {
+        Intent starter = new Intent(context, Module0Activity.class);
+        starter.putExtra("name", name);
+        context.startActivity(starter);
+        return true;
+    }
+
     @BusUtils.Subscribe(name = "startModule0")
     public static boolean start(Context context, String name, int age) {
         Intent starter = new Intent(context, Module0Activity.class);

@@ -1,12 +1,25 @@
 plugins {
-    id 'java'
+    id 'com.android.library'
     id "com.github.dcendents.android-maven"
     id "com.jfrog.bintray"
 }
 
-group = rootProject.group
-version = rootProject.busVersion
+android {
+    compileSdkVersion rootProject.compileSdkVersion
+    defaultConfig {
+        minSdkVersion rootProject.minSdkVersion
+        versionCode rootProject.versionCode
+        versionName rootProject.versionName
+    }
 
-apply from: "../gradle/bintrayUpload.gradle"
+    buildTypes {
+        release {
+            minifyEnabled false
+            consumerProguardFiles 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
 
+apply from: "../gradle/bintrayUploadAndroid.gradle"
 //./gradlew bus:bintrayUpload

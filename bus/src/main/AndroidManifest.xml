@@ -1,0 +1,16 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.blankj.utilcode">
+
+    <application>
+        <activity
+            android:name=".util.BusUtils$BusActivity"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:taskAffinity="com.blankj.utilcode.bus"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            <intent-filter>
+                <action android:name="action.com.blankj.utilcode.bus" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

@@ -3,4 +3,6 @@ include ':app',
         ':bus-gradle-plugin',
         ':common',
         ':module0',
-        ':module1'
+        ':module0app',
+        ':module1',
+        ':module1app'
