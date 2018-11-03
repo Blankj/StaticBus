@@ -21,5 +21,9 @@ android {
     }
 }
 
+afterEvaluate {
+    generateReleaseBuildConfig.enabled = false
+}
+
 apply from: "../gradle/bintrayUploadAndroid.gradle"
 //./gradlew bus:bintrayUpload
