@@ -8,8 +8,8 @@ android {
     compileSdkVersion rootProject.compileSdkVersion
     defaultConfig {
         minSdkVersion rootProject.minSdkVersion
-        versionCode rootProject.versionCode
-        versionName rootProject.versionName
+        versionCode 1
+        versionName "1.0"
     }
 
     buildTypes {
